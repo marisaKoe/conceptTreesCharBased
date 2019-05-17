@@ -1,0 +1,2 @@
+import computation
+from computation import compute_without_synonyms, compute_with_synonyms
