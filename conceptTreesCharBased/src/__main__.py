@@ -134,21 +134,13 @@ def write_dataMatrix_withSynonyms(fout1, dataMatrix,numLangs, numSoundPairs):
 
 if __name__ == '__main__':
     
-    ##if program stops, read in all iqtrees and create only the rest
-     
-#     iq_list = glob.glob("output/iqTrees/*.tre")
-#     cur_trees = []
-#     for c in iq_list:
-#         c = c.split("/")[-1].split("_")[0]
-#         cur_trees.append(c)
 
     ##read the tree to get the list of leaves for reading nelex data and sort it out correctly   
     list_leaves, dummy_tree = read_tree()
     print list_leaves
     ##get the data as dictionary with key = concept value= list of tuples (lang, asjp_word), get a dictionary with unique languages per concept key=concept val=list of langs
     nelex_dict, unique_langs_concept = read_nelex(list_leaves)
-    #for x,y in nelex_dict.items():
-    #    print y[0]
+
     ##get the pmi scores
     pmiScores = pd.read_csv('input/pmiScores.csv',index_col=0)
     ## get the gap penalties
@@ -174,31 +166,10 @@ if __name__ == '__main__':
            
            
            
-        ########without synonyms###############
-#         pad, taxa,binMtx = compute_without_synonyms(data_list, tree, sounds, pmiScores, gp1, gp2)
-#         #print binMtx
-#         ##create nexus files for further analysis with mrBayes
-#         ##output filename
-#         fout = "output/tcoffee_data_matrices/"+concept+'_binMtx.nex'
-#         write_dataMatrix_withoutSynonyms(fout, binMtx, str(len(taxa)), str(len(binMtx.columns)))
-#         fout = "output/tcoffee_data_matrices_withSynonyms/"+concept+'_binMtx.phy'
-#         write_dataMatrix_withSynonyms(fout, dataMtx, str(len(taxa)), str(len(binMtx.columns)))
-#           
-#         ##work with tempfile to create iqTrees
-#         tempdir = "output/temp"
-#         with open(tempdir+"/binMtx.phy","w") as f:
-#             f.write(str(len(taxa))+' '+str(len(binMtx.columns))+'\n')
-#             for l in binMtx.index:
-#                 f.write(l.ljust(pad))
-#                 f.write(''.join(map(str,binMtx.ix[l].values))+'\n')
-           
            
            
         ##########with synonyms###############
         pad, taxa,binMtx = compute_with_synonyms(data_list, tree, sounds, pmiScores, gp1, gp2)
-        #print pad
-        #print taxa
-        #print binMtx
         taxa = list(set(taxa))
         ##try to work with synonyms!!!!!!!!!!not perfect comment out if not wanted
         dataMtx = dict()
@@ -236,18 +207,14 @@ if __name__ == '__main__':
                   
                 ##merge the first and the second entry in the dict to get one arry, keeping 1s
                 np_array = dataMtx[l]
-                #print second_array
                 for idx, val in ndenumerate(sym1):
-                    #print type(val)
                     if val == 1:
                         old_val = np_array[idx]
                         if old_val == 0:
                             np_array[idx] = val
                           
-                #print "new np", np_array
                 dataMtx[l] = np_array
-         
-        #print dataMtx
+
         ##create nexus files for further analysis with mrBayes
         ##output filename
         fout = "output/tcoffee_data_matrices_withSynonyms/"+concept+'_binMtx.phy'

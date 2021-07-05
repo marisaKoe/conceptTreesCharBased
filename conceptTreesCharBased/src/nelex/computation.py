@@ -53,8 +53,6 @@ def compute_without_synonyms(data_list,tree, sounds, pmiScores, gp1, gp2 ):
 def compute_with_synonyms(data_list,tree, sounds, pmiScores, gp1, gp2):
     ##create a pandas data frame out of the data
     wl = pd.DataFrame(data_list, columns=['doculect','ASJP'])
-    ##drop the double entries in the doculect
-    #wl = wl.drop_duplicates('doculect')
       
     ##create a pmiDict
     pmiDict = dict()
@@ -68,15 +66,11 @@ def compute_with_synonyms(data_list,tree, sounds, pmiScores, gp1, gp2):
 
     ## Data Frame for the global alignments
     algDF = pd.DataFrame([list(x) for x in alg.alignment.values],index=alg.doculect.values,columns = range(len(alg.alignment.values[0])))
-    #print algDF
     ##get the taxa
     taxa = alg.doculect.values
 
-    #print algDF
     ##create the binary matrix
     binMtx = pd.DataFrame(index=taxa)
-    #print binMtx
-    #print algDF.index
     
     ##for each column in the global alignment in the dataframe
     for i in algDF.columns:
@@ -93,7 +87,6 @@ def compute_with_synonyms(data_list,tree, sounds, pmiScores, gp1, gp2):
         ##concatenate the matrices to a bigger one
         binMtx = pd.concat([binMtx,clBin],axis=1)
          
-    #print binMtx
     pad = max(map(len,taxa))+5
     
     return pad, taxa,binMtx

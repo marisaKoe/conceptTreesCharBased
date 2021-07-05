@@ -37,7 +37,6 @@ def tCoffee(wl, guideTree, lodict, gp1, gp2, sounds):
         if nd.is_leaf():
             nd.add_feature('algn',array([wlI.ASJP[int(nd.name)]]))
             nd.add_feature('nTaxa',array([nd.name]))
-            #print nd.name
         else:
             dl,dr = nd.get_children()
             b1,b2 = dl.algn,dr.algn
@@ -72,7 +71,6 @@ def createExtendedLibrary(words,lodict,gp1,gp2,sounds):
                 a2,s2 = library[w3,w2]
                 dm += (s1+s2)*dot(a1,a2)
             extLibrary[w1,w2] = dm
-    #print extLibrary
     return extLibrary
 
 def createLibrary(words,lodict,gp1,gp2,sounds):
@@ -91,7 +89,6 @@ def createLibrary(words,lodict,gp1,gp2,sounds):
             else:
                 a1,a2 = nw(w1,w2,lodict,gp1,gp2)[1]
                 library[w1,w2] = algnMtx([a1,a2],sounds),(1-sHamming(a1,a2))
-    #print library
     return library
 
 
