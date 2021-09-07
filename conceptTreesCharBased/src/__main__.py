@@ -137,7 +137,6 @@ if __name__ == '__main__':
 
     ##read the tree to get the list of leaves for reading nelex data and sort it out correctly   
     list_leaves, dummy_tree = read_tree()
-    print list_leaves
     ##get the data as dictionary with key = concept value= list of tuples (lang, asjp_word), get a dictionary with unique languages per concept key=concept val=list of langs
     nelex_dict, unique_langs_concept = read_nelex(list_leaves)
 
@@ -150,11 +149,8 @@ if __name__ == '__main__':
     count = 0
     ##for each concept, align the data via tcoffee, save the matrix and reconstruct a concept tree
     for concept, data_list in nelex_dict.items():
- 
          
         count += 1
-        #if not concept in cur_trees :
-        print concept
 
         ##read the tree and list of leaves again in case we need to prune the tree
         list_leaves, tree = read_tree()
@@ -253,8 +249,7 @@ if __name__ == '__main__':
             os.remove(os.path.join(tempdir,filename))
            
         #conceptTree.write(format=1,outfile='output/iqTrees/'+concept+'_iqTree.tre')
-      
-        print count
+
      
     
     
